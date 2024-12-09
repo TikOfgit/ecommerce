@@ -1,0 +1,56 @@
+import { NextPage } from 'next';
+import Head from 'next/head';
+import { useState } from 'react';
+import axios from 'axios';
+
+const ProductPage: NextPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleBuyNow = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post('/api/create-payment');
+      // Rediriger vers la page de paiement PayPlug
+      window.location.href = response.data.payment_url;
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Une erreur est survenue lors de la création du paiement');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Head>
+        <title>Produit Test - La Chabroderie</title>
+        <meta name="description" content="Page produit test" />
+      </Head>
+
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Produit Test
+            </h1>
+            <p className="text-gray-600 mb-4">
+              Description du produit test pour démonstration PayPlug
+            </p>
+            <div className="text-2xl font-bold text-gray-900 mb-6">
+              15,00 €
+            </div>
+            <button
+              onClick={handleBuyNow}
+              disabled={isLoading}
+              className="w-full bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              {isLoading ? 'Chargement...' : 'Acheter maintenant'}
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default ProductPage;
