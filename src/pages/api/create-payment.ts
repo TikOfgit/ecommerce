@@ -17,9 +17,10 @@ export default async function handler(
     const paymentData = {
       amount: 1500,
       currency: 'EUR',
-      notification_url: 'https://ecommerce-flame-one.vercel.app/api/webhook',
-      return_url: 'https://ecommerce-flame-one.vercel.app/success',
-      cancel_url: 'https://ecommerce-flame-one.vercel.app/cancel',
+      hosted_payment: {
+        return_url: 'https://ecommerce-flame-one.vercel.app/success',
+        cancel_url: 'https://ecommerce-flame-one.vercel.app/cancel'
+      },
       customer: {
         email: 'test@example.com',
         first_name: 'John',
