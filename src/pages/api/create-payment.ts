@@ -12,9 +12,6 @@ export default async function handler(
   }
 
   const baseUrl = 'https://ecommerce-flame-one.vercel.app';
-  
-  // Encode the API key in Base64
-  const auth = Buffer.from(PAYPLUG_SECRET_KEY + ':').toString('base64');
 
   try {
     const response = await axios({
@@ -29,7 +26,7 @@ export default async function handler(
         force_3ds: true
       },
       headers: {
-        'Authorization': `Basic ${auth}`,
+        'Authorization': `Bearer ${PAYPLUG_SECRET_KEY}`,
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
