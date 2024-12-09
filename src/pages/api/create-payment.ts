@@ -12,6 +12,9 @@ export default async function handler(
   }
 
   const baseUrl = 'https://ecommerce-flame-one.vercel.app';
+  
+  // Encode the API key in Base64
+  const auth = Buffer.from(PAYPLUG_SECRET_KEY + ':').toString('base64');
 
   try {
     const response = await axios({
@@ -22,27 +25,28 @@ export default async function handler(
         currency: 'EUR',
         return_url: `${baseUrl}/success`,
         cancel_url: `${baseUrl}/cancel`,
-        notification_url: `${baseUrl}/api/webhook`
+        notification_url: `${baseUrl}/api/webhook`,
+        force_3ds: true
       },
       headers: {
-        'Authorization': `Bearer ${PAYPLUG_SECRET_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      validateStatus: null
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
     });
 
-    if (response.status !== 201 && response.status !== 200) {
-      console.error('PayPlug error response:', response.data);
-      return res.status(response.status).json({
-        message: 'Error from PayPlug',
-        error: response.data
-      });
-    }
-
+    console.log('PayPlug response:', response.data);
     return res.status(200).json(response.data);
   } catch (error: any) {
-    console.error('PayPlug error:', error.response?.data || error.message);
-    return res.status(500).json({
+    // Log the complete error response
+    console.error('PayPlug error details:', {
+      status: error.response?.status,
+      data: error.response?.data,
+      headers: error.response?.headers,
+      message: error.message
+    });
+
+    return res.status(error.response?.status || 500).json({
       message: 'Error creating payment',
       error: error.response?.data || error.message
     });

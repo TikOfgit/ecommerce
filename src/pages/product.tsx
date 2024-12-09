@@ -5,16 +5,24 @@ import axios from 'axios';
 
 const ProductPage: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleBuyNow = async () => {
     try {
       setIsLoading(true);
+      setError(null);
+      
       const response = await axios.post('/api/create-payment');
-      // Rediriger vers la page de paiement PayPlug
-      window.location.href = response.data.payment_url;
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Une erreur est survenue lors de la création du paiement');
+      console.log('Payment response:', response.data);
+      
+      if (response.data.hosted_payment_url) {
+        window.location.href = response.data.hosted_payment_url;
+      } else {
+        throw new Error('No payment URL received');
+      }
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      setError(error.response?.data?.error?.message || error.message || 'Une erreur est survenue');
     } finally {
       setIsLoading(false);
     }
@@ -39,6 +47,11 @@ const ProductPage: NextPage = () => {
             <div className="text-2xl font-bold text-gray-900 mb-6">
               15,00 €
             </div>
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {error}
+              </div>
+            )}
             <button
               onClick={handleBuyNow}
               disabled={isLoading}
