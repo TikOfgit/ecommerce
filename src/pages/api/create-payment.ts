@@ -20,10 +20,21 @@ export default async function handler(
       data: {
         amount: 1500,
         currency: 'EUR',
-        return_url: `${baseUrl}/success`,
-        cancel_url: `${baseUrl}/cancel`,
+        payment_method: {
+          type: 'card'
+        },
+        hosted_payment: {
+          return_url: `${baseUrl}/success`,
+          cancel_url: `${baseUrl}/cancel`
+        },
         notification_url: `${baseUrl}/api/webhook`,
-        force_3ds: true
+        metadata: {
+          order_id: 'TEST-001'
+        },
+        save_card: false,
+        force_3ds: true,
+        allow_save_card: false,
+        initiator: 'PAYER'
       },
       headers: {
         'Authorization': `Bearer ${PAYPLUG_SECRET_KEY}`,
