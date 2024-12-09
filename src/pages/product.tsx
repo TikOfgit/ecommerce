@@ -15,8 +15,8 @@ const ProductPage: NextPage = () => {
       const response = await axios.post('/api/create-payment');
       console.log('Payment response:', response.data);
       
-      if (response.data.hosted_payment_url) {
-        window.location.href = response.data.hosted_payment_url;
+      if (response.data.payment_url) {
+        window.location.href = response.data.payment_url;
       } else {
         throw new Error('No payment URL received');
       }

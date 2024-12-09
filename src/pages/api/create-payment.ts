@@ -14,39 +14,39 @@ export default async function handler(
   const baseUrl = 'https://ecommerce-flame-one.vercel.app';
 
   try {
+    const paymentData = {
+      amount: 1500,
+      currency: 'EUR',
+      notification_url: `${baseUrl}/api/webhook`,
+      return_url: `${baseUrl}/success`,
+      cancel_url: `${baseUrl}/cancel`,
+      metadata: {
+        order_id: 'TEST-001'
+      }
+    };
+
+    console.log('Sending payment data:', paymentData);
+
     const response = await axios({
       method: 'post',
       url: 'https://api.payplug.com/v1/payments',
-      data: {
-        amount: 1500,
-        currency: 'EUR',
-        payment_method: {
-          type: 'card'
-        },
-        hosted_payment: {
-          return_url: `${baseUrl}/success`,
-          cancel_url: `${baseUrl}/cancel`
-        },
-        notification_url: `${baseUrl}/api/webhook`,
-        metadata: {
-          order_id: 'TEST-001'
-        },
-        save_card: false,
-        force_3ds: true,
-        allow_save_card: false,
-        initiator: 'PAYER'
-      },
+      data: paymentData,
       headers: {
         'Authorization': `Bearer ${PAYPLUG_SECRET_KEY}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Content-Type': 'application/json'
       }
     });
 
     console.log('PayPlug response:', response.data);
-    return res.status(200).json(response.data);
+    
+    if (response.data && response.data.hosted_payment_url) {
+      return res.status(200).json({
+        payment_url: response.data.hosted_payment_url
+      });
+    } else {
+      throw new Error('No payment URL in response');
+    }
   } catch (error: any) {
-    // Log the complete error response
     console.error('PayPlug error details:', {
       status: error.response?.status,
       data: error.response?.data,
