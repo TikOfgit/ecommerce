@@ -11,44 +11,25 @@ export default async function handler(
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
+  const baseUrl = 'https://ecommerce-flame-one.vercel.app';
+
   try {
-    const response = await axios.post(
-      'https://api.payplug.com/v1/payments',
-      {
+    const response = await axios({
+      method: 'post',
+      url: 'https://api.payplug.com/v1/payments',
+      data: {
         amount: 1500,
         currency: 'EUR',
-        billing: {
-          title: 'M',
-          first_name: 'John',
-          last_name: 'Doe',
-          email: 'john.doe@example.com',
-        },
-        shipping: {
-          title: 'M',
-          first_name: 'John',
-          last_name: 'Doe',
-          email: 'john.doe@example.com',
-        },
-        hosted_payment: {
-          return_url: 'https://ecommerce-flame-one.vercel.app/success',
-          cancel_url: 'https://ecommerce-flame-one.vercel.app/cancel'
-        },
-        notification_url: 'https://ecommerce-flame-one.vercel.app/api/webhook',
-        metadata: {
-          customer_id: '42',
-          order_id: '123456'
-        }
+        return_url: `${baseUrl}/success`,
+        cancel_url: `${baseUrl}/cancel`,
+        notification_url: `${baseUrl}/api/webhook`
       },
-      {
-        headers: {
-          'Authorization': `Bearer ${PAYPLUG_SECRET_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        validateStatus: function (status) {
-          return status < 500;
-        }
-      }
-    );
+      headers: {
+        'Authorization': `Bearer ${PAYPLUG_SECRET_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      validateStatus: null
+    });
 
     if (response.status !== 201 && response.status !== 200) {
       console.error('PayPlug error response:', response.data);
