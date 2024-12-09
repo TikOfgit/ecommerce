@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import axios from 'axios';
 
 const PAYPLUG_SECRET_KEY = 'sk_test_yugCPCAfcjcBYWEX2UlQw';
 
@@ -10,59 +11,47 @@ export default async function handler(
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const baseUrl = 'https://ecommerce-flame-one.vercel.app';
-
   try {
-    // Create payment data
-    const data = {
+    console.log('Starting payment creation...');
+
+    const paymentData = {
       amount: 1500,
       currency: 'EUR',
-      billing: {
-        first_name: "John",
-        last_name: "Doe",
-        email: "customer@example.net",
-      },
-      shipping: {
-        first_name: "John",
-        last_name: "Doe",
-        email: "customer@example.net",
-      },
-      hosted_payment: {
-        return_url: `${baseUrl}/success`,
-        cancel_url: `${baseUrl}/cancel`
+      notification_url: 'https://ecommerce-flame-one.vercel.app/api/webhook',
+      return_url: 'https://ecommerce-flame-one.vercel.app/success',
+      cancel_url: 'https://ecommerce-flame-one.vercel.app/cancel',
+      customer: {
+        email: 'test@example.com',
+        first_name: 'John',
+        last_name: 'Doe'
       }
     };
 
-    // Make the request to PayPlug
-    const response = await fetch('https://api.payplug.com/v1/payments', {
+    console.log('Payment data being sent:', JSON.stringify(paymentData, null, 2));
+
+    const response = await axios({
       method: 'POST',
+      url: 'https://api.payplug.com/v1/payments',
       headers: {
         'Authorization': `Bearer ${PAYPLUG_SECRET_KEY}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      data: paymentData
     });
 
-    // Get the response data
-    const responseData = await response.json();
+    console.log('PayPlug API response:', JSON.stringify(response.data, null, 2));
 
-    // Log for debugging
-    console.log('PayPlug API Response:', responseData);
-
-    if (!response.ok) {
-      throw new Error(responseData.message || 'Payment creation failed');
-    }
-
-    // Return the payment URL
     return res.status(200).json({
-      payment_url: responseData.hosted_payment_url
+      payment_url: response.data.hosted_payment.payment_url || response.data.hosted_payment_url
     });
 
   } catch (error: any) {
-    console.error('PayPlug error:', error);
+    console.error('PayPlug error:', error.response?.data || error.message);
+    
     return res.status(400).json({
-      message: 'Error creating payment',
-      error: error.message
+      error: true,
+      message: error.response?.data?.message || error.message,
+      details: error.response?.data
     });
   }
 }
