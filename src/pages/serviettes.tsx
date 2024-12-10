@@ -3,33 +3,34 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
-
-// Données des serviettes (à remplacer par des vraies données plus tard)
-const serviettes = [
-  {
-    id: 1,
-    name: "Serviette Éléphant Rose",
-    price: "25.00",
-    description: "Douce serviette brodée avec un adorable éléphant rose",
-    image: "/images/placeholder.jpg"
-  },
-  {
-    id: 2,
-    name: "Serviette Lapin Bleu",
-    price: "25.00",
-    description: "Serviette moelleuse avec un mignon petit lapin bleu",
-    image: "/images/placeholder.jpg"
-  },
-  {
-    id: 3,
-    name: "Serviette Ourson Beige",
-    price: "25.00",
-    description: "Serviette délicate avec un tendre ourson beige",
-    image: "/images/placeholder.jpg"
-  }
-];
+import { useEffect, useState } from 'react';
+import { supabase } from '../utils/supabase';
+import { Product } from '../types/product';
 
 const ServiettesPage: NextPage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  async function fetchProducts() {
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('category', 'serviette');
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Head>
@@ -98,29 +99,37 @@ const ServiettesPage: NextPage = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-          {serviettes.map((serviette) => (
-            <div key={serviette.id} className="group relative bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="w-full min-h-80 aspect-w-1 aspect-h-1 rounded-t-lg overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-400">Image à venir</span>
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nos serviettes</h2>
+
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+          {loading ? (
+            <div>Chargement...</div>
+          ) : (
+            products.map((product) => (
+              <div key={product.id} className="group relative">
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                  <img
+                    src={product.image_url}
+                    alt={product.name}
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                  />
+                </div>
+                <div className="mt-4 flex justify-between">
+                  <div>
+                    <h3 className="text-sm text-gray-700">
+                      <Link href={`/serviettes/${product.id}`}>
+                        <span aria-hidden="true" className="absolute inset-0" />
+                        {product.name}
+                      </Link>
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500">{product.dimensions}</p>
+                  </div>
+                  <p className="text-sm font-medium text-gray-900">{product.price}€</p>
                 </div>
               </div>
-              <div className="p-4">
-                <div className="flex justify-between">
-                  <h3 className="text-lg font-medium text-gray-900">
-                    <Link href={`/serviettes/${serviette.id}`}>
-                      <span aria-hidden="true" className="absolute inset-0" />
-                      {serviette.name}
-                    </Link>
-                  </h3>
-                  <p className="text-lg font-medium text-gray-900">{serviette.price}€</p>
-                </div>
-                <p className="mt-1 text-sm text-gray-500">{serviette.description}</p>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
