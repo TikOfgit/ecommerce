@@ -1,11 +1,10 @@
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
-import Navbar from '../components/Navbar';
+import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
 import { supabase } from '../utils/supabase';
 import { Product } from '../types/product';
+import Link from 'next/link';
 
 const ServiettesPage: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -32,13 +31,11 @@ const ServiettesPage: NextPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Layout>
       <Head>
-        <title>Nos Serviettes de Bébé | La Chabroderie</title>
-        <meta name="description" content="Découvrez notre collection de serviettes personnalisées pour bébé" />
+        <title>Serviettes personnalisées - La Chabroderie</title>
+        <meta name="description" content="Découvrez nos serviettes personnalisées pour bébé, fabriquées avec amour en France." />
       </Head>
-
-      <Navbar />
 
       {/* Hero Section */}
       <div className="bg-white">
@@ -151,7 +148,7 @@ const ServiettesPage: NextPage = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

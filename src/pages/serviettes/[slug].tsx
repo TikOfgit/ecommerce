@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { supabase } from '../../utils/supabase';
 import { Product } from '../../types/product';
+import Layout from '../../components/Layout';
 import Navbar from '../../components/Navbar';
 
 interface ProductPageProps {
@@ -22,7 +23,7 @@ export default function ProductPage({ product }: ProductPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <Layout>
       <Head>
         <title>{product.name} - La Chabroderie</title>
         <meta name="description" content={product.description} />
@@ -86,7 +87,7 @@ export default function ProductPage({ product }: ProductPageProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
