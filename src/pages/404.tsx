@@ -1,59 +1,35 @@
-import { NextPage } from 'next';
-import Head from 'next/head';
 import Link from 'next/link';
-import Navbar from '../components/Navbar';
+import Head from 'next/head';
+import Layout from '../components/Layout';
 
-const Custom404: NextPage = () => {
+export default function Custom404() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Layout>
       <Head>
-        <title>404 - Page non trouvée | La Chabroderie</title>
-        <meta name="description" content="Page non trouvée" />
+        <title>Page non trouvée - La Chabroderie</title>
+        <meta name="description" content="La page que vous recherchez n'existe pas." />
       </Head>
 
-      <Navbar />
-
-      <main className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full text-center">
-          <h1 className="text-9xl font-extrabold text-blue-600">404</h1>
-          
-          <div className="mt-4">
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight sm:text-4xl">
-              Page non trouvée
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Désolé, nous n&apos;avons pas trouvé la page que vous recherchez.
-            </p>
-          </div>
-
-          <div className="mt-8">
+      <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <div className="text-center">
+          <p className="text-base font-semibold text-indigo-600">404</p>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Page non trouvée</h1>
+          <p className="mt-6 text-base leading-7 text-gray-600">
+            Désolé, nous n&apos;avons pas trouvé la page que vous recherchez.
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Retour à l&apos;accueil
             </Link>
-          </div>
-
-          <div className="mt-6 text-gray-500">
-            <p>Vous pouvez également :</p>
-            <ul className="mt-2 list-disc list-inside">
-              <li>
-                <Link href="/products" className="text-blue-600 hover:text-blue-800">
-                  Voir nos produits
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-blue-600 hover:text-blue-800">
-                  Nous contacter
-                </Link>
-              </li>
-            </ul>
+            <Link href="/contact" className="text-sm font-semibold text-gray-900">
+              Contactez-nous <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
         </div>
       </main>
-    </div>
+    </Layout>
   );
-};
-
-export default Custom404;
+}

@@ -1,19 +1,17 @@
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../components/Navbar';
+import Layout from '../components/Layout';
 
 const Home: NextPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Layout>
       <Head>
-        <title>La Chabroderie - Boutique en ligne</title>
-        <meta name="description" content="Découvrez notre sélection de produits artisanaux" />
+        <title>La Chabroderie - Créations personnalisées pour bébé</title>
+        <meta name="description" content="Découvrez nos créations uniques et personnalisées pour bébé, fabriquées avec amour en France." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Navbar />
 
       {/* Hero Section */}
       <div className="relative bg-white overflow-hidden">
@@ -88,7 +86,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
