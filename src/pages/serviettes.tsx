@@ -6,6 +6,7 @@ import { supabase } from '../utils/supabase';
 import { Product } from '../types/product';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const ServiettesPage: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -45,11 +46,15 @@ const ServiettesPage: NextPage = () => {
       {/* Hero Section avec image de fond */}
       <div className="relative">
         <div className="absolute inset-0">
-          <img
-            src="/images/hero-serviettes.jpg"
-            alt="Serviettes pour bébé"
-            className="w-full h-full object-cover"
-          />
+          <div className="w-full h-full relative">
+            <Image
+              src="/images/hero-serviettes.jpg"
+              alt="Serviettes pour bébé"
+              layout="fill"
+              objectFit="cover"
+              priority
+            />
+          </div>
           <div className="absolute inset-0 bg-gray-500 bg-opacity-50"></div>
         </div>
         <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
@@ -57,6 +62,7 @@ const ServiettesPage: NextPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
             className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
           >
             Serviettes Personnalisées
@@ -65,6 +71,7 @@ const ServiettesPage: NextPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
             className="mt-6 text-xl text-white max-w-3xl"
           >
             Des serviettes douces et absorbantes, brodées avec amour pour votre bébé.
@@ -80,6 +87,7 @@ const ServiettesPage: NextPage = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="text-center"
             >
@@ -97,6 +105,7 @@ const ServiettesPage: NextPage = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-center"
             >
@@ -114,6 +123,7 @@ const ServiettesPage: NextPage = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
               className="text-center"
             >
@@ -138,6 +148,7 @@ const ServiettesPage: NextPage = () => {
             <motion.h2 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="text-2xl font-extrabold tracking-tight text-gray-900"
             >
@@ -147,21 +158,21 @@ const ServiettesPage: NextPage = () => {
               <div className="flex space-x-4">
                 <button
                   onClick={() => setSelectedFilter('all')}
-                  className={\`px-4 py-2 text-sm font-medium \${
+                  className={`px-4 py-2 text-sm font-medium ${
                     selectedFilter === 'all'
                       ? 'bg-indigo-600 text-white'
                       : 'text-gray-600 hover:text-gray-900'
-                  } rounded-md\`}
+                  } rounded-md`}
                 >
                   Tous
                 </button>
                 <button
                   onClick={() => setSelectedFilter('new')}
-                  className={\`px-4 py-2 text-sm font-medium \${
+                  className={`px-4 py-2 text-sm font-medium ${
                     selectedFilter === 'new'
                       ? 'bg-indigo-600 text-white'
                       : 'text-gray-600 hover:text-gray-900'
-                  } rounded-md\`}
+                  } rounded-md`}
                 >
                   Nouveautés
                 </button>
@@ -180,15 +191,17 @@ const ServiettesPage: NextPage = () => {
                   key={product.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
                   whileHover={{ y: -5 }}
                   className="relative group"
                 >
                   <div className="relative w-full h-72 rounded-lg overflow-hidden bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-3 sm:h-96">
-                    <img
+                    <Image
                       src={product.image_url}
                       alt={product.name}
-                      className="w-full h-full object-center object-cover"
+                      layout="fill"
+                      objectFit="cover"
                     />
                   </div>
                   <div className="mt-4 flex items-center justify-between space-x-8">
@@ -223,6 +236,7 @@ const ServiettesPage: NextPage = () => {
           <motion.h2 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             className="text-3xl font-extrabold text-gray-900 text-center mb-12"
           >
@@ -232,6 +246,7 @@ const ServiettesPage: NextPage = () => {
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="bg-gray-50 rounded-lg p-6"
             >
@@ -243,6 +258,7 @@ const ServiettesPage: NextPage = () => {
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="bg-gray-50 rounded-lg p-6"
             >
@@ -261,6 +277,7 @@ const ServiettesPage: NextPage = () => {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             className="text-3xl font-extrabold text-white sm:text-4xl"
           >
@@ -269,6 +286,7 @@ const ServiettesPage: NextPage = () => {
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-4 text-lg leading-6 text-indigo-200"
           >
@@ -277,6 +295,7 @@ const ServiettesPage: NextPage = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Link
