@@ -181,7 +181,7 @@ export default function Checkout() {
                   <li key={item.id} className="py-4 flex">
                     <div className="flex-shrink-0 w-16 h-16 border border-gray-200 rounded-md overflow-hidden relative">
                       <Image
-                        src={item.image}
+                        src={item.image_url}
                         alt={item.name}
                         fill
                         className="object-center object-cover"

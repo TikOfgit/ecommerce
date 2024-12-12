@@ -86,7 +86,7 @@ export default function SlideCart({ open, setOpen }: SlideCartProps) {
                                 <li key={item.id} className="flex py-6">
                                   <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                     <Image
-                                      src={item.image}
+                                      src={item.image_url}
                                       alt={item.name}
                                       fill
                                       style={{ objectFit: 'cover' }}
