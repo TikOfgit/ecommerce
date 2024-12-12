@@ -3,10 +3,19 @@ import Link from 'next/link';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import SlideCart from './SlideCart';
+import { useCart } from '../context/CartContext';
 
-export default function Navbar() {
+interface NavbarProps {
+  isCartOpen?: boolean;
+  setIsCartOpen?: (isOpen: boolean) => void;
+}
+
+export default function Navbar({ isCartOpen = false, setIsCartOpen = () => {} }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { cart } = useCart();
+
+  // Calculer le nombre total d'articles dans le panier
+  const itemCount = cart ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
 
   return (
     <>
@@ -58,9 +67,11 @@ export default function Navbar() {
               >
                 <span className="sr-only">Panier</span>
                 <ShoppingBagIcon className="h-6 w-6" aria-hidden="true" />
-                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-blue-600 text-xs text-white flex items-center justify-center">
-                  1
-                </span>
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-blue-600 text-xs text-white flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
               </button>
             </div>
 
@@ -113,25 +124,25 @@ export default function Navbar() {
             <div className="pt-2 pb-3 space-y-1">
               <Link
                 href="/"
-                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Accueil
               </Link>
               <Link
                 href="/serviettes"
-                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Serviettes
               </Link>
               <Link
                 href="/about"
-                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 À propos
               </Link>
               <Link
                 href="/contact"
-                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Contact
               </Link>
@@ -140,8 +151,8 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Slide Cart */}
-      <SlideCart open={isCartOpen} setOpen={setIsCartOpen} />
+      {/* Cart Slide-over */}
+      <SlideCart isOpen={isCartOpen} setIsOpen={setIsCartOpen} />
     </>
   );
 }

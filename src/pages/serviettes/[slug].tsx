@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { supabase } from '../../utils/supabase';
 import { useCart } from '../../context/CartContext';
 import Layout from '../../components/Layout';
+import { useState } from 'react';
 
 interface ProductPageProps {
   product: {
@@ -23,6 +24,7 @@ interface ProductPageProps {
 export default function ProductPage({ product }: ProductPageProps) {
   const router = useRouter();
   const { addToCart } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   if (router.isFallback) {
     return <div>Chargement...</div>;
@@ -33,7 +35,7 @@ export default function ProductPage({ product }: ProductPageProps) {
   }
 
   return (
-    <Layout>
+    <Layout isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}>
       <Head>
         <title>{product.name} - La Chabroderie</title>
         <meta name="description" content={product.description} />
@@ -81,6 +83,7 @@ export default function ProductPage({ product }: ProductPageProps) {
                 type="button"
                 onClick={() => {
                   addToCart(product);
+                  setIsCartOpen(true);
                 }}
                 className="w-full bg-indigo-600 text-white py-3 px-8 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >

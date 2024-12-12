@@ -5,10 +5,10 @@ export interface CartItem extends Product {
 }
 
 export interface CartContextType {
-  items: CartItem[];
+  cart: CartItem[];
+  total: number;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
-  total: number;
 }
