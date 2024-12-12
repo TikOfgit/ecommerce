@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
+import Link from 'next/link';
 
 interface SlideCartProps {
   open: boolean;
@@ -65,8 +66,8 @@ export default function SlideCart({ open, setOpen }: SlideCartProps) {
                             <Image
                               src="https://i.ibb.co/DpcDF45/cute-cat-handdrawn-07.png"
                               alt="Chat endormi"
-                              layout="fill"
-                              objectFit="contain"
+                              fill
+                              style={{ objectFit: 'contain' }}
                               priority
                             />
                           </div>
@@ -83,13 +84,12 @@ export default function SlideCart({ open, setOpen }: SlideCartProps) {
                             <ul role="list" className="-my-6 divide-y divide-gray-200">
                               {items.map((item) => (
                                 <li key={item.id} className="flex py-6">
-                                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                  <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                     <Image
                                       src={item.image}
                                       alt={item.name}
-                                      width={96}
-                                      height={96}
-                                      className="h-full w-full object-cover object-center"
+                                      fill
+                                      style={{ objectFit: 'cover' }}
                                     />
                                   </div>
 
@@ -148,12 +148,13 @@ export default function SlideCart({ open, setOpen }: SlideCartProps) {
                           Frais de livraison calculés à la commande.
                         </p>
                         <div className="mt-6">
-                          <a
+                          <Link
                             href="/checkout"
                             className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700"
+                            onClick={() => setOpen(false)}
                           >
                             Commander
-                          </a>
+                          </Link>
                         </div>
                         <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                           <p>
