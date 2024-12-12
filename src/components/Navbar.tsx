@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import SlideCart from './SlideCart';
 import { useCart } from '../context/CartContext';
 
 interface NavbarProps {
@@ -150,9 +149,6 @@ export default function Navbar({ isCartOpen = false, setIsCartOpen = () => {} }:
           </div>
         )}
       </nav>
-
-      {/* Cart Slide-over */}
-      <SlideCart isOpen={isCartOpen} setIsOpen={setIsCartOpen} />
     </>
   );
 }
