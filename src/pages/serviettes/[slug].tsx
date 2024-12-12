@@ -3,15 +3,26 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import { supabase } from '../../utils/supabase';
-import { Product } from '../../types/product';
+import { useCart } from '../../context/CartContext';
 import Layout from '../../components/Layout';
 
 interface ProductPageProps {
-  product: Product;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    image_url: string;
+    stock: number;
+    dimensions?: string;
+    material?: string;
+    care_instructions?: string;
+  };
 }
 
 export default function ProductPage({ product }: ProductPageProps) {
   const router = useRouter();
+  const { addToCart } = useCart();
 
   if (router.isFallback) {
     return <div>Chargement...</div>;
@@ -68,6 +79,9 @@ export default function ProductPage({ product }: ProductPageProps) {
             {product.stock > 0 ? (
               <button
                 type="button"
+                onClick={() => {
+                  addToCart(product);
+                }}
                 className="w-full bg-indigo-600 text-white py-3 px-8 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Ajouter au panier
