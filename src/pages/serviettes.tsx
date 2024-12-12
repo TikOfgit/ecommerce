@@ -8,7 +8,12 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-const ServiettesPage: NextPage = () => {
+interface ServiettesPageProps {
+  isCartOpen?: boolean;
+  setIsCartOpen?: (isOpen: boolean) => void;
+}
+
+const ServiettesPage: NextPage<ServiettesPageProps> = ({ isCartOpen, setIsCartOpen }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -34,7 +39,7 @@ const ServiettesPage: NextPage = () => {
   }
 
   return (
-    <Layout>
+    <Layout isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}>
       <Head>
         <title>Serviettes Personnalisées pour Bébé - La Chabroderie</title>
         <meta 

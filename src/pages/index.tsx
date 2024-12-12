@@ -4,9 +4,14 @@ import Image from 'next/image';
 import Layout from '../components/Layout';
 import Link from 'next/link';
 
-const Home: NextPage = () => {
+interface HomeProps {
+  isCartOpen?: boolean;
+  setIsCartOpen?: (isOpen: boolean) => void;
+}
+
+const Home: NextPage<HomeProps> = ({ isCartOpen, setIsCartOpen }) => {
   return (
-    <Layout>
+    <Layout isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}>
       <Head>
         <title>La Chabroderie - Produits artisanaux faits avec amour</title>
         <meta name="description" content="Découvrez notre collection unique de produits artisanaux faits avec amour et passion." />
