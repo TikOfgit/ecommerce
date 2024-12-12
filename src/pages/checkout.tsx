@@ -2,11 +2,22 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { useCart } from '../context/CartContext';
+import Image from 'next/image';
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  phone: string;
+}
 
 export default function Checkout() {
   const router = useRouter();
   const { items, total, clearCart } = useCart();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -37,7 +48,7 @@ export default function Checkout() {
     
     // Pour le moment, on simule juste une commande réussie
     clearCart();
-    router.push('/confirmation');
+    router.push('/confirmation?success=true');
   };
 
   if (items.length === 0) {
@@ -64,7 +75,6 @@ export default function Checkout() {
                     required
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
                 <div>
@@ -78,7 +88,6 @@ export default function Checkout() {
                     required
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -94,7 +103,6 @@ export default function Checkout() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
 
@@ -109,7 +117,6 @@ export default function Checkout() {
                   required
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
 
@@ -124,7 +131,6 @@ export default function Checkout() {
                   required
                   value={formData.address}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
 
@@ -140,7 +146,6 @@ export default function Checkout() {
                     required
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
                 <div>
@@ -154,7 +159,6 @@ export default function Checkout() {
                     required
                     value={formData.postalCode}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -175,11 +179,12 @@ export default function Checkout() {
               <ul className="divide-y divide-gray-200">
                 {items.map((item) => (
                   <li key={item.id} className="py-4 flex">
-                    <div className="flex-shrink-0 w-16 h-16 border border-gray-200 rounded-md overflow-hidden">
-                      <img
+                    <div className="flex-shrink-0 w-16 h-16 border border-gray-200 rounded-md overflow-hidden relative">
+                      <Image
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-center object-cover"
+                        fill
+                        className="object-center object-cover"
                       />
                     </div>
                     <div className="ml-4 flex-1 flex flex-col">
