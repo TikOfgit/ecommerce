@@ -141,7 +141,7 @@ export default function Navbar() {
       </nav>
 
       {/* Slide Cart */}
-      <SlideCart isOpen={isCartOpen} setIsOpen={setIsCartOpen} />
+      <SlideCart open={isCartOpen} setOpen={setIsCartOpen} />
     </>
   );
 }
