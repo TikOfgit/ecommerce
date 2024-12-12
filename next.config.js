@@ -2,7 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['your-supabase-project.supabase.co', 'i.ibb.co'],
+    domains: ['i.ibb.co', 'res.cloudinary.com'],
+    formats: ['image/avif', 'image/webp'],
+  },
+  i18n: {
+    locales: ['fr'],
+    defaultLocale: 'fr',
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
 }
 

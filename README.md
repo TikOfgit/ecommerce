@@ -1,41 +1,74 @@
-# La Chabroderie - E-commerce de Produits pour Bébé
+# La Chabroderie - Site E-commerce
 
-Site e-commerce spécialisé dans les produits pour bébé.
+Site e-commerce pour La Chabroderie, spécialisé dans la vente de produits personnalisés brodés.
 
-## Technologies utilisées
+## Technologies Utilisées
 
-- Next.js
+- Next.js 13
 - TypeScript
-- TailwindCSS
-- Supabase (Base de données)
-- PayPlug (Paiements)
-- Vercel (Hébergement)
+- Tailwind CSS
+- Supabase
+- Stripe (paiement)
 
-## Configuration requise
+## Fonctionnalités
 
-1. Node.js 18+ et npm
-2. Compte GitHub
-3. Compte Vercel
-4. Compte Supabase
-5. Compte PayPlug
+- 🛍️ Catalogue de produits
+- 🛒 Panier d'achat persistant
+- 💳 Paiement sécurisé
+- 📱 Design responsive
+- 🔍 Navigation intuitive
+- 🎨 Interface moderne
+
+## Structure du Projet
+
+```
+src/
+├── components/      # Composants réutilisables
+├── context/        # Contextes React (panier, etc.)
+├── lib/           # Bibliothèques et configurations
+├── pages/         # Pages de l'application
+├── styles/        # Styles globaux
+├── types/         # Types TypeScript
+└── utils/         # Utilitaires
+```
 
 ## Installation
 
+1. Cloner le projet
 ```bash
-# Installer les dépendances
-npm install
+git clone [URL_DU_REPO]
+```
 
-# Lancer le serveur de développement
+2. Installer les dépendances
+```bash
+npm install
+```
+
+3. Configurer les variables d'environnement
+```bash
+cp .env.example .env.local
+```
+
+4. Lancer le serveur de développement
+```bash
 npm run dev
 ```
 
-## Variables d'environnement
+## Scripts Disponibles
 
-Créez un fichier `.env.local` avec les variables suivantes :
+- `npm run dev` : Lance le serveur de développement
+- `npm run build` : Construit l'application pour la production
+- `npm start` : Lance l'application en production
+- `npm run lint` : Vérifie le code avec ESLint
 
-```env
-NEXT_PUBLIC_SUPABASE_URL=votre_url_supabase
-NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_clé_supabase
-NEXT_PUBLIC_PAYPLUG_PUBLIC_KEY=votre_clé_publique_payplug
-PAYPLUG_SECRET_KEY=votre_clé_secrète_payplug
-```
+## Déploiement
+
+Le site est déployé sur Vercel. Chaque push sur la branche main déclenche un déploiement automatique.
+
+## Contribution
+
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
+3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push sur la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request

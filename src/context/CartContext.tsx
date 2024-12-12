@@ -1,9 +1,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Product } from '../types/product';
 import { CartContextType, CartItem } from '../types/cart';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+/**
+ * Provider pour le contexte du panier
+ */
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -11,44 +13,45 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // Charger le panier depuis le localStorage au démarrage
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('cart');
-      if (savedCart) {
-        try {
+      try {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
           const parsedCart = JSON.parse(savedCart);
           setCart(parsedCart);
-        } catch (error) {
-          console.error('Error parsing cart from localStorage:', error);
-          localStorage.removeItem('cart');
         }
+      } catch (error) {
+        console.error('Erreur lors du chargement du panier:', error);
+        localStorage.removeItem('cart');
       }
     }
   }, []);
 
-  // Sauvegarder le panier dans le localStorage à chaque modification
+  // Sauvegarder le panier et calculer le total
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('cart', JSON.stringify(cart));
-      // Calculer le total
-      const newTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      setTotal(newTotal);
+      try {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        const newTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        setTotal(newTotal);
+      } catch (error) {
+        console.error('Erreur lors de la sauvegarde du panier:', error);
+      }
     }
   }, [cart]);
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: CartItem) => {
     setCart(currentCart => {
       const existingItem = currentCart.find(item => item.id === product.id);
       
       if (existingItem) {
-        // Si le produit existe déjà, augmenter la quantité
         return currentCart.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + product.quantity }
             : item
         );
       }
       
-      // Si le produit n'existe pas, l'ajouter avec une quantité de 1
-      return [...currentCart, { ...product, quantity: 1 }];
+      return [...currentCart, product];
     });
   };
 
@@ -73,6 +76,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => {
     setCart([]);
+    localStorage.removeItem('cart');
   };
 
   const value = {
@@ -91,10 +95,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Hook personnalisé pour utiliser le contexte du panier
+ */
 export function useCart() {
   const context = useContext(CartContext);
   if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error('useCart doit être utilisé à l\'intérieur d\'un CartProvider');
   }
   return context;
 }
