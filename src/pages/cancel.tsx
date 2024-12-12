@@ -1,31 +1,41 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import Layout from '../components/Layout';
+import { CartPageProps } from '../types/cart';
 
-const CancelPage: NextPage = () => {
+const Cancel: NextPage<CartPageProps> = ({ isCartOpen, setIsCartOpen }) => {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <Layout isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}>
       <Head>
         <title>Paiement annulé - La Chabroderie</title>
+        <meta name="description" content="Votre paiement a été annulé" />
       </Head>
 
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center">
-        <div className="text-red-500 text-5xl mb-4">×</div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">
-          Paiement annulé
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Le paiement a été annulé. Aucun montant n'a été débité.
-        </p>
-        <Link 
-          href="/product"
-          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700"
-        >
-          Retourner au produit
-        </Link>
+      <div className="min-h-[70vh] flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-max mx-auto text-center">
+          <div className="rounded-md bg-yellow-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-yellow-800">Paiement annulé</h3>
+                <div className="mt-2 text-sm text-yellow-700">
+                  <p>Votre paiement a été annulé. Aucun montant n'a été débité.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6">
+            <Link
+              href="/"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Retour à l'accueil
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
-export default CancelPage;
+export default Cancel;

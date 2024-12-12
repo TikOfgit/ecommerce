@@ -5,13 +5,9 @@ import Layout from '../components/Layout';
 import { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useRouter } from 'next/router';
+import { CartPageProps } from '../types/cart';
 
-interface ConfirmationProps {
-  isCartOpen?: boolean;
-  setIsCartOpen?: (isOpen: boolean) => void;
-}
-
-const Confirmation: NextPage<ConfirmationProps> = ({ isCartOpen, setIsCartOpen }) => {
+const Confirmation: NextPage<CartPageProps> = ({ isCartOpen, setIsCartOpen }) => {
   const router = useRouter();
   const { clearCart } = useCart();
   const { success } = router.query;

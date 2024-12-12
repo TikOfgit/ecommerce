@@ -4,13 +4,9 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import { CartPageProps } from '../types/cart';
 
-interface SuccessProps {
-  isCartOpen?: boolean;
-  setIsCartOpen?: (isOpen: boolean) => void;
-}
-
-const Success: NextPage<SuccessProps> = ({ isCartOpen, setIsCartOpen }) => {
+const Success: NextPage<CartPageProps> = ({ isCartOpen, setIsCartOpen }) => {
   const { clearCart } = useCart();
 
   useEffect(() => {
