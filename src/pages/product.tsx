@@ -2,8 +2,14 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
 import axios from 'axios';
+import Layout from '../components/Layout';
 
-const ProductPage: NextPage = () => {
+interface ProductPageProps {
+  isCartOpen?: boolean;
+  setIsCartOpen?: (isOpen: boolean) => void;
+}
+
+const ProductPage: NextPage<ProductPageProps> = ({ isCartOpen, setIsCartOpen }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +35,7 @@ const ProductPage: NextPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <Layout isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}>
       <Head>
         <title>Produit Test - La Chabroderie</title>
         <meta name="description" content="Page produit test" />
@@ -55,14 +61,14 @@ const ProductPage: NextPage = () => {
             <button
               onClick={handleBuyNow}
               disabled={isLoading}
-              className="w-full bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+              className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
             >
               {isLoading ? 'Chargement...' : 'Acheter maintenant'}
             </button>
           </div>
         </div>
       </main>
-    </div>
+    </Layout>
   );
 };
 
