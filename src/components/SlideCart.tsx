@@ -71,19 +71,20 @@ export default function SlideCart({ isOpen, setIsOpen }: SlideCartProps) {
                         <div className="mt-8 text-center">
                           <div className="relative w-64 h-64 mx-auto mb-4">
                             <Image
-                              src="/images/empty-cart.png"
-                              alt="Panier vide"
+                              src="https://i.ibb.co/DpcDF45/cute-cat-handdrawn-07.png"
+                              alt="Panier vide - Chat mignon"
                               width={256}
                               height={256}
                               style={{ objectFit: 'contain' }}
                               priority
+                              unoptimized
                             />
                           </div>
                           <p className="text-lg font-medium text-gray-900 mb-2">
                             Votre panier est vide
                           </p>
                           <p className="text-gray-500">
-                            Ajoutez des produits pour commencer vos achats
+                            Ajoutez des produits pour commencer vos achats 😺
                           </p>
                         </div>
                       ) : (

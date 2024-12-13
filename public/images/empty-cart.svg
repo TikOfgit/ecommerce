@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Corps du chat -->
+  <path d="M128 220C177.706 220 218 179.706 218 130C218 80.2944 177.706 40 128 40C78.2944 40 38 80.2944 38 130C38 179.706 78.2944 220 128 220Z" fill="#F3F4F6"/>
+  <!-- Oreilles -->
+  <path d="M80 90L100 120L60 120L80 90Z" fill="#9CA3AF"/>
+  <path d="M176 90L196 120L156 120L176 90Z" fill="#9CA3AF"/>
+  <!-- Yeux -->
+  <circle cx="100" cy="140" r="15" fill="#4B5563"/>
+  <circle cx="156" cy="140" r="15" fill="#4B5563"/>
+  <!-- Reflet des yeux -->
+  <circle cx="95" cy="135" r="5" fill="white"/>
+  <circle cx="151" cy="135" r="5" fill="white"/>
+  <!-- Nez -->
+  <path d="M128 160L123 170H133L128 160Z" fill="#9CA3AF"/>
+  <!-- Moustaches -->
+  <line x1="70" y1="160" x2="110" y2="165" stroke="#9CA3AF" stroke-width="2"/>
+  <line x1="70" y1="170" x2="110" y2="170" stroke="#9CA3AF" stroke-width="2"/>
+  <line x1="70" y1="180" x2="110" y2="175" stroke="#9CA3AF" stroke-width="2"/>
+  <line x1="186" y1="160" x2="146" y2="165" stroke="#9CA3AF" stroke-width="2"/>
+  <line x1="186" y1="170" x2="146" y2="170" stroke="#9CA3AF" stroke-width="2"/>
+  <line x1="186" y1="180" x2="146" y2="175" stroke="#9CA3AF" stroke-width="2"/>
+</svg>
