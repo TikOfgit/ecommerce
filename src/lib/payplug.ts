@@ -38,10 +38,13 @@ export async function createPayment(
   console.log('Using site URL:', siteURL);
 
   try {
+    // Convertir la clé API en Base64 pour l'authentification Basic
+    const basicAuth = Buffer.from(`${PAYPLUG_API_KEY}:`).toString('base64');
+
     const response = await fetch(`${PAYPLUG_API_URL}/payments`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${PAYPLUG_API_KEY}`,
+        'Authorization': `Basic ${basicAuth}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -52,7 +55,7 @@ export async function createPayment(
           return_url: `${siteURL}/success`,
           cancel_url: `${siteURL}/cancel`,
         },
-        customer: {
+        billing: {
           first_name: customerInfo.firstName,
           last_name: customerInfo.lastName,
           email: customerInfo.email,
@@ -60,6 +63,18 @@ export async function createPayment(
           city: customerInfo.city,
           postcode: customerInfo.postalCode,
           country: 'FR',
+          language: 'fr'
+        },
+        shipping: {
+          first_name: customerInfo.firstName,
+          last_name: customerInfo.lastName,
+          email: customerInfo.email,
+          address1: customerInfo.address,
+          city: customerInfo.city,
+          postcode: customerInfo.postalCode,
+          country: 'FR',
+          language: 'fr',
+          delivery_type: 'BILLING'
         },
         metadata: {
           customer_id: customerInfo.email,
@@ -69,14 +84,16 @@ export async function createPayment(
             quantity: item.quantity,
             price: item.price
           })))
-        }
+        },
+        force_3ds: true, // Activer 3D Secure pour plus de sécurité
+        allow_save_card: false // Désactiver la sauvegarde de carte
       }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
       console.error('PayPlug API error:', errorData);
-      throw new Error(`PayPlug API error: ${response.status}`);
+      throw new Error(`PayPlug API error: ${response.status} - ${JSON.stringify(errorData)}`);
     }
 
     const data = await response.json() as CreatePaymentResponse;
